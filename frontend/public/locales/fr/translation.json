@@ -21,6 +21,7 @@
   "email": "Email",
   "password": "Mot de passe",
   "or": "ou",
+  "and": "et",
   "loginButton": "Connexion",
   "signUpButton": "S'inscrire",
   "logoutButton": "Déconnexion",
@@ -45,5 +46,7 @@
   "Owner": "Propriétaire",
   "saveButton": "Sauvegarder",
   "invalidUrl": "URL invalide",
-  "crawlButton": "Crawler"
+  "crawlButton": "Crawler",
+  "themeSelect": "Thème de l'interface",
+  "languageSelect": "Langue préférée"
 }

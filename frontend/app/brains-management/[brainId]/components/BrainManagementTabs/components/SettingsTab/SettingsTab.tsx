@@ -14,8 +14,8 @@ import { useBrainContext } from "@/lib/context/BrainProvider/hooks/useBrainConte
 import { defineMaxTokens } from "@/lib/helpers/defineMaxTokens";
 import { SaveButton } from "@/shared/SaveButton";
 
-import { PrivateAccessConfirmationModal } from "./components/PrivateAccessConfirmationModal/PrivateAccessConfirmationModal";
-import { usePrivateAccessConfirmationModal } from "./components/PrivateAccessConfirmationModal/hooks/usePrivateAccessConfirmationModal";
+import { AccessConfirmationModal } from "./components/PrivateAccessConfirmationModal/AccessConfirmationModal";
+import { useAccessConfirmationModal } from "./components/PrivateAccessConfirmationModal/hooks/useAccessConfirmationModal";
 import { PublicPrompts } from "./components/PublicPrompts/PublicPrompts";
 import { useSettingsTab } from "./hooks/useSettingsTab";
 import { getBrainPermissions } from "../../utils/getBrainPermissions";
@@ -46,12 +46,15 @@ export const SettingsTab = ({ brainId }: SettingsTabProps): JSX.Element => {
     status,
     setValue,
     dirtyFields,
+    resetField,
   } = useSettingsTab({ brainId });
-  const { onCancel, isPrivateAccessModalOpened, closeModal } =
-    usePrivateAccessConfirmationModal({
+
+  const { onCancel, isAccessModalOpened, closeModal } =
+    useAccessConfirmationModal({
       status,
       setValue,
       isStatusDirty: Boolean(dirtyFields.status),
+      resetField,
     });
 
   const { allBrains } = useBrainContext();
@@ -88,7 +91,7 @@ export const SettingsTab = ({ brainId }: SettingsTabProps): JSX.Element => {
           <div className="mt-4">
             <div className="flex flex-1 items-center flex-col">
               {isPublicBrain && !isOwnedByCurrentUser && (
-                <Chip className="mb-3 bg-purple-600 text-white w-full">
+                <Chip className="mb-3 bg-primary text-white w-full">
                   {t("brain:public_brain_label")}
                 </Chip>
               )}
@@ -98,20 +101,21 @@ export const SettingsTab = ({ brainId }: SettingsTabProps): JSX.Element => {
                   {t("defaultBrain", { ns: "brain" })}
                 </div>
               ) : (
-                <Button
-                  variant={"secondary"}
-                  isLoading={isSettingAsDefault}
-                  onClick={() => void setAsDefaultBrainHandler()}
-                  type="button"
-                  disabled={!hasEditRights}
-                >
-                  {t("setDefaultBrain", { ns: "brain" })}
-                </Button>
+                hasEditRights && (
+                  <Button
+                    variant={"secondary"}
+                    isLoading={isSettingAsDefault}
+                    onClick={() => void setAsDefaultBrainHandler()}
+                    type="button"
+                  >
+                    {t("setDefaultBrain", { ns: "brain" })}
+                  </Button>
+                )
               )}
             </div>
           </div>
         </div>
-        {isPublicBrain && isOwnedByCurrentUser && (
+        {isOwnedByCurrentUser && (
           <div className="w-full mt-4">
             <Radio
               items={brainStatusOptions}
@@ -187,9 +191,11 @@ export const SettingsTab = ({ brainId }: SettingsTabProps): JSX.Element => {
             {...register("maxTokens")}
           />
         </fieldset>
-        <div className="flex w-full justify-end py-4">
-          <SaveButton disabled={!hasEditRights} handleSubmit={handleSubmit} />
-        </div>
+        {hasEditRights && (
+          <div className="flex w-full justify-end py-4">
+            <SaveButton handleSubmit={handleSubmit} />
+          </div>
+        )}
         <Divider text={t("customPromptSection", { ns: "config" })} />
         {hasEditRights && <PublicPrompts onSelect={pickPublicPrompt} />}
         <Field
@@ -208,12 +214,14 @@ export const SettingsTab = ({ brainId }: SettingsTabProps): JSX.Element => {
           disabled={!hasEditRights}
           {...register("prompt.content")}
         />
-        <div className="flex w-full justify-end py-4">
-          <SaveButton disabled={!hasEditRights} handleSubmit={handleSubmit} />
-        </div>
-        {promptId !== "" && (
+        {hasEditRights && (
+          <div className="flex w-full justify-end py-4">
+            <SaveButton handleSubmit={handleSubmit} />
+          </div>
+        )}
+        {hasEditRights && promptId !== "" && (
           <Button
-            disabled={isUpdating || !hasEditRights}
+            disabled={isUpdating}
             onClick={() => void removeBrainPrompt()}
           >
             {t("removePrompt", { ns: "config" })}
@@ -228,11 +236,12 @@ export const SettingsTab = ({ brainId }: SettingsTabProps): JSX.Element => {
           )}
         </div>
       </form>
-      <PrivateAccessConfirmationModal
-        opened={isPrivateAccessModalOpened}
+      <AccessConfirmationModal
+        opened={isAccessModalOpened}
         onClose={onCancel}
         onCancel={onCancel}
         onConfirm={closeModal}
+        selectedStatus={status}
       />
     </>
   );

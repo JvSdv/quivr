@@ -159,6 +159,10 @@ class Repository(ABC):
         pass
 
     @abstractmethod
+    def add_question_and_answer(self, chat_id: str, question_and_answer):
+        pass
+
+    @abstractmethod
     def update_message_by_id(self, message_id: UUID, updates):
         pass
 
@@ -254,4 +258,20 @@ class Repository(ABC):
 
     @abstractmethod
     def get_all_knowledge_in_brain(self, brain_id: UUID):
+        pass
+
+    @abstractmethod
+    def get_user_onboarding(self, user_id: UUID):
+        pass
+
+    @abstractmethod
+    def update_user_onboarding(self, user_id: UUID, onboarding):
+        pass
+
+    @abstractmethod
+    def remove_user_onboarding(self, user_id: UUID):
+        pass
+
+    @abstractmethod
+    def remove_onboarding_more_than_x_days(self, days: int):
         pass

@@ -1,5 +1,188 @@
 # Changelog
 
+## 0.0.96 (2023-10-24)
+
+## What's Changed
+* feat: validate email and required question with react-hook-form by @matthieujacq in https://github.com/StanGirard/quivr/pull/1463
+* feat: fetch security questions from CMS by @mamadoudicko in https://github.com/StanGirard/quivr/pull/1464
+* feat:  POST on /contact to contact quivr team by email by @matthieujacq in https://github.com/StanGirard/quivr/pull/1466
+* feat: setup premium feature backend by @mamadoudicko in https://github.com/StanGirard/quivr/pull/1467
+* feat: add sponsor and blog links by @mamadoudicko in https://github.com/StanGirard/quivr/pull/1472
+* feat: contact sales submission by @matthieujacq in https://github.com/StanGirard/quivr/pull/1473
+* feat(homepage): add analytics by @mamadoudicko in https://github.com/StanGirard/quivr/pull/1474
+* fix: make use cases clickable by @mamadoudicko in https://github.com/StanGirard/quivr/pull/1475
+* fix: update blog link position by @mamadoudicko in https://github.com/StanGirard/quivr/pull/1476
+
+
+**Full Changelog**: https://github.com/StanGirard/quivr/compare/v0.0.95...v0.0.96
+
+## 0.0.95 (2023-10-23)
+
+## What's Changed
+* feat: homepage first section by @matthieujacq in https://github.com/StanGirard/quivr/pull/1439
+* fix: show a flat gradient in the UseCase section by @matthieujacq in https://github.com/StanGirard/quivr/pull/1440
+* style: update testimonials display by @mamadoudicko in https://github.com/StanGirard/quivr/pull/1441
+* feat: fetch homepage data from CMS by @mamadoudicko in https://github.com/StanGirard/quivr/pull/1452
+* feat: contact sales page (front layout) by @matthieujacq in https://github.com/StanGirard/quivr/pull/1451
+* Fix: Improved Text Visibility in Dark Mode in OnboardingQuestion Component by @Dev-Dz27 in https://github.com/StanGirard/quivr/pull/1456
+* feat(cms): added single video demo by @StanGirard in https://github.com/StanGirard/quivr/pull/1459
+* feat: fetch demo video from CMS by @mamadoudicko in https://github.com/StanGirard/quivr/pull/1461
+* feat: Contact form component by @matthieujacq in https://github.com/StanGirard/quivr/pull/1453
+
+## New Contributors
+* @Dev-Dz27 made their first contribution in https://github.com/StanGirard/quivr/pull/1456
+
+**Full Changelog**: https://github.com/StanGirard/quivr/compare/v0.0.94...v0.0.95
+
+## 0.0.94 (2023-10-19)
+
+## What's Changed
+* feat: Homepage demo section by @matthieujacq in https://github.com/StanGirard/quivr/pull/1420
+* feat: add security section by @mamadoudicko in https://github.com/StanGirard/quivr/pull/1423
+* feat: HomePage new footer by @matthieujacq in https://github.com/StanGirard/quivr/pull/1425
+* feat: add testimonials section by @mamadoudicko in https://github.com/StanGirard/quivr/pull/1427
+* refactor(backend): cleaning dead and unused code by @StanGirard in https://github.com/StanGirard/quivr/pull/1432
+
+
+**Full Changelog**: https://github.com/StanGirard/quivr/compare/v0.0.93...v0.0.94
+
+## 0.0.93 (2023-10-17)
+
+## What's Changed
+* feat: add use cases to homepage by @mamadoudicko in https://github.com/StanGirard/quivr/pull/1415
+* feat: Homepage screen 1 content by @matthieujacq in https://github.com/StanGirard/quivr/pull/1414
+
+
+**Full Changelog**: https://github.com/StanGirard/quivr/compare/v0.0.92...v0.0.93
+
+## 0.0.92 (2023-10-17)
+
+## What's Changed
+* feat: add a cron to remove onboarding more than 7 days by @mamadoudicko in https://github.com/StanGirard/quivr/pull/1397
+* feat:  🖼️ new homepage background by @matthieujacq in https://github.com/StanGirard/quivr/pull/1395
+
+
+**Full Changelog**: https://github.com/StanGirard/quivr/compare/v0.0.91...v0.0.92
+
+## 0.0.91 (2023-10-12)
+
+## What's Changed
+* feat: track onboarding events by @mamadoudicko in https://github.com/StanGirard/quivr/pull/1388
+* fix(user identity): User identity dict has no attribute user_id and open_api_key by @HamzaKhalidDhillon in https://github.com/StanGirard/quivr/pull/1351
+* feat: new homepage header by @matthieujacq in https://github.com/StanGirard/quivr/pull/1382
+* feat(onboarding): add suggested questions answer by @mamadoudicko in https://github.com/StanGirard/quivr/pull/1390
+
+## New Contributors
+* @HamzaKhalidDhillon made their first contribution in https://github.com/StanGirard/quivr/pull/1351
+
+**Full Changelog**: https://github.com/StanGirard/quivr/compare/v0.0.90...v0.0.91
+
+## 0.0.90 (2023-10-11)
+
+## What's Changed
+* feat: add Welcome chat by @mamadoudicko in https://github.com/StanGirard/quivr/pull/1365
+* feat: handle suggestion click by @mamadoudicko in https://github.com/StanGirard/quivr/pull/1368
+* refactor: Enable linting on login+signup page and hooks by @matthieujacq in https://github.com/StanGirard/quivr/pull/1369
+* feat: finish onboarding step on first upload or crawl by @mamadoudicko in https://github.com/StanGirard/quivr/pull/1373
+* feat: add create_user_onboarding_function by @mamadoudicko in https://github.com/StanGirard/quivr/pull/1383
+* feat: remove user onboarding on complete by @mamadoudicko in https://github.com/StanGirard/quivr/pull/1387
+
+
+**Full Changelog**: https://github.com/StanGirard/quivr/compare/v0.0.89...v0.0.90
+
+## 0.0.89 (2023-10-09)
+
+## What's Changed
+* feat: enable CSP in all environments (local/preview/prod) by @matthieujacq in https://github.com/StanGirard/quivr/pull/1334
+* feat: enhance user page UI by @nguernse in https://github.com/StanGirard/quivr/pull/1319
+* feat: update onboarding steps  by @mamadoudicko in https://github.com/StanGirard/quivr/pull/1337
+* feat: add onboarding_a column to onboarding table by @mamadoudicko in https://github.com/StanGirard/quivr/pull/1340
+* fix(question): fixed with user_settings by @StanGirard in https://github.com/StanGirard/quivr/pull/1349
+* FIX tables.sql - missing ; breaks SQL queries. by @stanrb in https://github.com/StanGirard/quivr/pull/1348
+* feat: ⚙️🐞 configure debugger for the backend by @matthieujacq in https://github.com/StanGirard/quivr/pull/1345
+* test: add chat e2e tests by @mamadoudicko in https://github.com/StanGirard/quivr/pull/1344
+* feat: configure CSP for self-hosting and multiple ports in dev mode by @matthieujacq in https://github.com/StanGirard/quivr/pull/1364
+
+## New Contributors
+* @stanrb made their first contribution in https://github.com/StanGirard/quivr/pull/1348
+
+**Full Changelog**: https://github.com/StanGirard/quivr/compare/v0.0.88...v0.0.89
+
+## 0.0.88 (2023-10-05)
+
+## What's Changed
+* fix: wrap parsing with try catch statements by @mamadoudicko in https://github.com/StanGirard/quivr/pull/1321
+* fix: 🐛 ↕️ 📱height now matches mobile height by @matthieujacq in https://github.com/StanGirard/quivr/pull/1323
+* feat: add onboarding step 3 by @mamadoudicko in https://github.com/StanGirard/quivr/pull/1324
+* feat: restructure the sidebar of the brains management page by @matthieujacq in https://github.com/StanGirard/quivr/pull/1325
+* feat: add onboarding table by @mamadoudicko in https://github.com/StanGirard/quivr/pull/1327
+* feat: update onboarding controller and fix typo by @mamadoudicko in https://github.com/StanGirard/quivr/pull/1333
+
+
+**Full Changelog**: https://github.com/StanGirard/quivr/compare/v0.0.87...v0.0.88
+
+## 0.0.87 (2023-10-03)
+
+## What's Changed
+* feat: ↕️ maximize brains management page by @matthieujacq in https://github.com/StanGirard/quivr/pull/1308
+* refactor: ♻️ ContentSecurityPolicy as an object by @matthieujacq in https://github.com/StanGirard/quivr/pull/1312
+* fix: replace next/image's layout deprecated attribute by @matthieujacq in https://github.com/StanGirard/quivr/pull/1313
+* fix: remove undesired outlines around divs by @matthieujacq in https://github.com/StanGirard/quivr/pull/1316
+* feat(onboarding): add step 2 by @mamadoudicko in https://github.com/StanGirard/quivr/pull/1314
+* feat(onboarding): add questions suggestions layout by @mamadoudicko in https://github.com/StanGirard/quivr/pull/1318
+
+
+**Full Changelog**: https://github.com/StanGirard/quivr/compare/v0.0.86...v0.0.87
+
+## 0.0.86 (2023-10-03)
+
+## What's Changed
+* fix(script): added percent before list of emails by @StanGirard in https://github.com/StanGirard/quivr/pull/1284
+* feat: improve app ux by @mamadoudicko in https://github.com/StanGirard/quivr/pull/1281
+* test: add e2e for crawling by @mamadoudicko in https://github.com/StanGirard/quivr/pull/1288
+* feat(user_settings): increased by @StanGirard in https://github.com/StanGirard/quivr/pull/1291
+* fix: prevent fetch when user is not logged in by @nguernse in https://github.com/StanGirard/quivr/pull/1293
+* fix(Select): fix JSX typo by @nguernse in https://github.com/StanGirard/quivr/pull/1292
+* feat: ✨ responsive sidebar by @matthieujacq in https://github.com/StanGirard/quivr/pull/1279
+* fix: 🐛 Sidebar content should not hide the sidebar footer by @matthieujacq in https://github.com/StanGirard/quivr/pull/1298
+* feat: allow users to turn private brain to public by @mamadoudicko in https://github.com/StanGirard/quivr/pull/1300
+* feat: add onboarding first step by @mamadoudicko in https://github.com/StanGirard/quivr/pull/1303
+* feat: update chat list on new chat first message by @mamadoudicko in https://github.com/StanGirard/quivr/pull/1305
+* feat: ↕️ Maximise chat window by @matthieujacq in https://github.com/StanGirard/quivr/pull/1301
+
+## New Contributors
+* @nguernse made their first contribution in https://github.com/StanGirard/quivr/pull/1293
+
+**Full Changelog**: https://github.com/StanGirard/quivr/compare/v0.0.85...v0.0.86
+
+## 0.0.84 (2023-09-28)
+
+## What's Changed
+* feat: 👤 Implement gravatar by @matthieujacq in https://github.com/StanGirard/quivr/pull/1268
+* feat: improve knowledge feed process ux by @mamadoudicko in https://github.com/StanGirard/quivr/pull/1274
+* fix: 🔒️ add gravatar.com to the content security policy by @matthieujacq in https://github.com/StanGirard/quivr/pull/1273
+* feat(chatPage): update ui add new feed component by @mamadoudicko in https://github.com/StanGirard/quivr/pull/1275
+* feat: knowledge tab add button by @gozineb in https://github.com/StanGirard/quivr/pull/1277
+* fix(brains): get brains on local by @B0rrA in https://github.com/StanGirard/quivr/pull/1272
+
+
+**Full Changelog**: https://github.com/StanGirard/quivr/compare/v0.0.83...v0.0.84
+
+## 0.0.83 (2023-09-27)
+
+## What's Changed
+* feat(nav): 🚚 Move Brain and User buttons to the sidebar in the chat by @matthieujacq in https://github.com/StanGirard/quivr/pull/1262
+* feat: save last chat config and make it default one by @mamadoudicko in https://github.com/StanGirard/quivr/pull/1266
+* style: improve upload ux by @Rahil2507 in https://github.com/StanGirard/quivr/pull/1259
+* fix(docs): add prerequisites section in step 2 by @JvSdv in https://github.com/StanGirard/quivr/pull/1149
+* style: improve ui by @mamadoudicko in https://github.com/StanGirard/quivr/pull/1263
+
+## New Contributors
+* @Rahil2507 made their first contribution in https://github.com/StanGirard/quivr/pull/1259
+* @JvSdv made their first contribution in https://github.com/StanGirard/quivr/pull/1149
+
+**Full Changelog**: https://github.com/StanGirard/quivr/compare/v0.0.82...v0.0.83
+
 ## 0.0.82 (2023-09-26)
 
 ## What's Changed

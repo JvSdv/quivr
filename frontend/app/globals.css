@@ -15,6 +15,10 @@ a {
   @apply hover:text-primary dark:hover:text-gray-200 transition-colors;
 }
 
+div:focus {
+  @apply outline-none;
+}
+
 @layer utilities {
   .scrollbar::-webkit-scrollbar {
     @apply w-2 h-2;
@@ -36,5 +40,11 @@ a {
   .scrollbar::-webkit-scrollbar-thumb:hover {
     /* background: #000; */
     @apply bg-gray-500;
+  }
+
+  .h-fill-available {
+    /* fixes the h-[100vh] issue on mobile */
+    /* like height: -webkit-fill-available; but for any device (android and iphone) */
+    @apply h-[100vh] supports-[height:100cqh]:h-[100cqh] supports-[height:100svh]:h-[100svh];
   }
 }

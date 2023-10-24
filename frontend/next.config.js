@@ -1,37 +1,70 @@
+/* eslint-disable max-lines */
 const nextConfig = {
   images: {
-    domains: ["www.quivr.app", "quivr-cms.s3.eu-west-3.amazonaws.com"]
+    domains: [
+      "www.quivr.app",
+      "quivr-cms.s3.eu-west-3.amazonaws.com",
+      "www.gravatar.com",
+      "media.licdn.com",
+    ],
   },
   // eslint-disable-next-line prefer-arrow/prefer-arrow-functions
   async headers() {
-    if (process.env.NEXT_PUBLIC_ENV === "prod") {
-      return [
-        {
-          source: "/(.*)",
-          headers: securityHeaders,
-        },
-      ];
-    } else {
-      return [];
-    }
+    return [
+      {
+        source: "/(.*)",
+        headers: securityHeaders,
+      },
+    ];
   },
 };
 
-const ContentSecurityPolicy = `
-  default-src 'self' https://fonts.googleapis.com ${process.env.NEXT_PUBLIC_SUPABASE_URL} https://api.june.so https://www.quivr.app/; 
-  connect-src 'self' ${process.env.NEXT_PUBLIC_SUPABASE_URL} ${process.env.NEXT_PUBLIC_BACKEND_URL} https://api.june.so https://api.openai.com https://cdn.growthbook.io https://vitals.vercel-insights.com/v1/vitals;
-  img-src 'self' data:;
-  media-src 'self' https://user-images.githubusercontent.com https://www.quivr.app/ https://quivr-cms.s3.eu-west-3.amazonaws.com;
-  script-src 'unsafe-inline' 'unsafe-eval' https://va.vercel-scripts.com/  https://www.quivr.app/ https://www.google-analytics.com/;
-  frame-ancestors 'none';
-  style-src 'unsafe-inline' https://www.quivr.app/;
-`;
+const ContentSecurityPolicy = {
+  "default-src": [
+    "'self'",
+    "https://fonts.googleapis.com",
+    process.env.NEXT_PUBLIC_SUPABASE_URL,
+    "https://api.june.so",
+    process.env.NEXT_PUBLIC_FRONTEND_URL,
+  ],
+  "connect-src": [
+    "'self'",
+    process.env.NEXT_PUBLIC_SUPABASE_URL,
+    process.env.NEXT_PUBLIC_BACKEND_URL,
+    process.env.NEXT_PUBLIC_CMS_URL,
+    "https://api.june.so",
+    "https://api.openai.com",
+    "https://cdn.growthbook.io",
+    "https://vitals.vercel-insights.com/v1/vitals",
+  ],
+  "img-src": ["'self'", "https://www.gravatar.com","https://quivr-cms.s3.eu-west-3.amazonaws.com", "data:"],
+  "media-src": [
+    "'self'",
+    "https://user-images.githubusercontent.com",
+    process.env.NEXT_PUBLIC_FRONTEND_URL,
+    "https://quivr-cms.s3.eu-west-3.amazonaws.com",
+  ],
+  "script-src": [
+    "'unsafe-inline'",
+    "'unsafe-eval'",
+    "https://va.vercel-scripts.com/",
+    process.env.NEXT_PUBLIC_FRONTEND_URL,
+    "https://www.google-analytics.com/",
+  ],
+  "frame-ancestors": ["'none'"],
+  "style-src": ["'unsafe-inline'", process.env.NEXT_PUBLIC_FRONTEND_URL],
+};
+
+// Build CSP string
+const cspString = Object.entries(ContentSecurityPolicy)
+  .map(([key, values]) => `${key} ${values.join(" ")};`)
+  .join(" ");
 
 // Define headers
 const securityHeaders = [
   {
     key: "Content-Security-Policy",
-    value: ContentSecurityPolicy.replace(/\n/g, ""),
+    value: cspString,
   },
   {
     key: "Referrer-Policy",

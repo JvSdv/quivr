@@ -21,6 +21,7 @@
   "email": "Email",
   "password": "Password",
   "or": "or",
+  "and": "and",
   "loginButton": "Login",
   "signUpButton": "Sign up",
   "logoutButton": "Logout",
@@ -45,5 +46,7 @@
   "Owner": "Owner",
   "saveButton": "Save",
   "invalidUrl": "Invalid URL",
-  "crawlButton": "Crawl"
+  "crawlButton": "Crawl",
+  "themeSelect": "Interface theme",
+  "languageSelect": "Preferred language"
 }

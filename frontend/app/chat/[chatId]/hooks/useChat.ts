@@ -1,14 +1,19 @@
 /* eslint-disable max-lines */
+import { useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { getChatsConfigFromLocalStorage } from "@/lib/api/chat/chat.local";
+import { CHATS_DATA_KEY } from "@/lib/api/chat/config";
 import { useChatApi } from "@/lib/api/chat/useChatApi";
 import { useChatContext } from "@/lib/context";
 import { useBrainContext } from "@/lib/context/BrainProvider/hooks/useBrainContext";
+import { getChatNameFromQuestion } from "@/lib/helpers/getChatNameFromQuestion";
 import { useToast } from "@/lib/hooks";
+import { useOnboarding } from "@/lib/hooks/useOnboarding";
+import { useOnboardingTracker } from "@/lib/hooks/useOnboardingTracker";
 import { useEventTracking } from "@/services/analytics/june/useEventTracking";
 
 import { useQuestion } from "./useQuestion";
@@ -17,11 +22,14 @@ import { ChatQuestion } from "../types";
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const useChat = () => {
   const { track } = useEventTracking();
+  const queryClient = useQueryClient();
 
   const params = useParams();
   const [chatId, setChatId] = useState<string | undefined>(
     params?.chatId as string | undefined
   );
+  const { isOnboarding } = useOnboarding();
+  const { trackOnboardingEvent } = useOnboardingTracker();
   const [generatingAnswer, setGeneratingAnswer] = useState(false);
   const router = useRouter();
   const { messages } = useChatContext();
@@ -51,18 +59,26 @@ export const useChat = () => {
 
       //if chatId is not set, create a new chat. Chat name is from the first question
       if (currentChatId === undefined) {
-        const chatName = question.split(" ").slice(0, 3).join(" ");
-        const chat = await createChat(chatName);
+        const chat = await createChat(getChatNameFromQuestion(question));
         currentChatId = chat.chat_id;
         setChatId(currentChatId);
         shouldUpdateUrl = true;
-        //TODO: update chat list here
+        void queryClient.invalidateQueries({
+          queryKey: [CHATS_DATA_KEY],
+        });
       }
 
-      void track("QUESTION_ASKED", {
-        brainId: currentBrainId,
-        promptId: currentPromptId,
-      });
+      if (isOnboarding) {
+        void trackOnboardingEvent("QUESTION_ASKED", {
+          brainId: currentBrainId,
+          promptId: currentPromptId,
+        });
+      } else {
+        void track("QUESTION_ASKED", {
+          brainId: currentBrainId,
+          promptId: currentPromptId,
+        });
+      }
 
       const chatConfig = getChatsConfigFromLocalStorage();
 

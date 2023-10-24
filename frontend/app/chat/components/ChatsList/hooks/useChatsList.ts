@@ -1,46 +1,40 @@
-import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
-import { useTranslation } from 'react-i18next';
+import { useQuery } from "@tanstack/react-query";
+import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 
+import { CHATS_DATA_KEY } from "@/lib/api/chat/config";
 import { useChatApi } from "@/lib/api/chat/useChatApi";
 import { useChatsContext } from "@/lib/context/ChatsProvider/hooks/useChatsContext";
 import { useToast } from "@/lib/hooks";
-import { useDevice } from "@/lib/hooks/useDevice";
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const useChatsList = () => {
-  const { isMobile } = useDevice();
-  const [open, setOpen] = useState(!isMobile);
-  const { t } = useTranslation(['chat']);
-
-  const pathname = usePathname();
+  const { t } = useTranslation(["chat"]);
 
   const { setAllChats } = useChatsContext();
   const { publish } = useToast();
   const { getChats } = useChatApi();
 
-  useEffect(() => {
-    const fetchAllChats = async () => {
-      try {
-        const response = await getChats();
-        setAllChats(response.reverse());
-      } catch (error) {
-        console.error(error);
-        publish({
-          variant: "danger",
-          text: t("errorFetching",{ ns : 'chat'})
-        });
-      }
-    };
-    void fetchAllChats();
-  }, []);
+  const fetchAllChats = async () => {
+    try {
+      const response = await getChats();
 
-  useEffect(() => {
-    setOpen(!isMobile);
-  }, [isMobile, pathname]);
-
-  return {
-    open,
-    setOpen,
+      return response.reverse();
+    } catch (error) {
+      console.error(error);
+      publish({
+        variant: "danger",
+        text: t("errorFetching", { ns: "chat" }),
+      });
+    }
   };
+
+  const { data: chats } = useQuery({
+    queryKey: [CHATS_DATA_KEY],
+    queryFn: fetchAllChats,
+  });
+
+  useEffect(() => {
+    setAllChats(chats ?? []);
+  }, [chats]);
 };

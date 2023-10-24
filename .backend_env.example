@@ -10,10 +10,6 @@ GOOGLE_CLOUD_PROJECT=<change-me>
 CELERY_BROKER_URL=redis://redis:6379/0
 CELEBRY_BROKER_QUEUE_NAME=quivr-preview.fifo
 
-MAX_BRAIN_SIZE=52428800
-MAX_REQUESTS_NUMBER=200
-MAX_BRAIN_PER_USER=5
-
 #Private LLM Variables
 PRIVATE=False
 MODEL_PATH=./local_models/ggml-gpt4all-j-v1.3-groovy.bin
@@ -21,5 +17,12 @@ MODEL_PATH=./local_models/ggml-gpt4all-j-v1.3-groovy.bin
 #RESEND
 RESEND_API_KEY=<change-me>
 RESEND_EMAIL_ADDRESS=onboarding@resend.dev
+RESEND_CONTACT_SALES_FROM=contact_sales@resend.dev
+RESEND_CONTACT_SALES_TO=<change-me>
 
 CRAWL_DEPTH=1
+
+
+PREMIUM_MAX_BRAIN_NUMBER=30
+PREMIUM_MAX_BRAIN_SIZE=10000000
+PREMIUM_DAILY_CHAT_CREDIT=100

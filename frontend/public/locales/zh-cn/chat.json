@@ -29,13 +29,27 @@
   "shortcut_manage_brains": "CMDB: 管理你的大脑",
   "shortcut_go_to_user_page": "CMDU: 进入用户页面",
   "shortcut_go_to_shortcuts": "CMDK: 前往快捷方式",
-  "chat_title_intro": "来聊天吧，通过你的",
-  "empty_brain_title_prefix": "上传文件到",
-  "empty_brain_title_suffix": "和他们聊天",
   "actions_bar_placeholder": "向@大脑提问，选择您的#提示",
   "missing_brain": "请选择一个大脑进行聊天",
   "new_prompt": "新提示",
-  "feed_brain_placeholder" : "选择要用这些文件喂养的 @大脑",
+  "feed_brain_placeholder": "选择要用这些文件喂养的 @大脑",
   "feedingBrain": "您新添加的知识正在处理中，同时您可以继续聊天！",
-  "add_content_card_button_tooltip": "向大脑添加知识"
+  "add_content_card_button_tooltip": "向大脑添加知识",
+  "back_to_chat": "返回聊天",
+  "onboarding": {
+    "title": "嗨 👋🏻 想要探索 Quivr？😇",
+    "step_1_1": "1. 在聊天框或📎上拖放文件。",
+    "step_1_2": "没有文件？下载 'Quivr 文档'",
+    "step_2": "2. 开始与您的文件聊天",
+    "step_3": "3. 尽情享受！",
+    "how_to_use_quivr": "如何使用Quivr？",
+    "what_is_quivr": "什么是Quivr？",
+    "what_is_brain": "什么是大脑？",
+    "answer":{
+      "how_to_use_quivr": "查看文档https://brain.quivr.app/docs/get_started/intro.html",
+      "what_is_quivr": "Quivr是一个有用的助手。",
+      "what_is_brain": "大脑包含知识。"
+    }
+  },
+  "welcome": "欢迎来到"
 }

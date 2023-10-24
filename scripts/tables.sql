@@ -230,9 +230,9 @@ CREATE TABLE IF NOT EXISTS migrations (
 
 CREATE TABLE IF NOT EXISTS user_settings (
   user_id UUID PRIMARY KEY,
-  models JSONB DEFAULT '["gpt-3.5-turbo"]'::jsonb,
-  max_requests_number INT DEFAULT 50,
-  max_brains INT DEFAULT 5,
+  models JSONB DEFAULT '["gpt-3.5-turbo","huggingface/mistralai/Mistral-7B-Instruct-v0.1"]'::jsonb,
+  daily_chat_credit INT DEFAULT 20,
+  max_brains INT DEFAULT 3,
   max_brain_size INT DEFAULT 10000000
 );
 
@@ -255,6 +255,117 @@ CREATE TABLE IF NOT EXISTS knowledge_vectors (
   PRIMARY KEY (knowledge_id, vector_id, embedding_model)
 );
 
+-- Create the function to add user_id to the onboardings table
+CREATE OR REPLACE FUNCTION public.create_user_onboarding() RETURNS TRIGGER AS $$
+BEGIN
+    INSERT INTO public.onboardings (user_id)
+    VALUES (NEW.id);
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql SECURITY definer;
+
+-- Revoke all on function handle_new_user_onboarding() from PUBLIC;
+REVOKE ALL ON FUNCTION create_user_onboarding() FROM PUBLIC;
+
+-- Drop the trigger if it exists
+DROP TRIGGER IF EXISTS create_user_onboarding_trigger ON auth.users;
+
+-- Create the trigger on the insert into the auth.users table
+CREATE TRIGGER create_user_onboarding_trigger
+AFTER INSERT ON auth.users
+FOR EACH ROW
+EXECUTE FUNCTION public.create_user_onboarding();
+
+-- Create the onboarding table
+CREATE TABLE IF NOT EXISTS onboardings (
+  user_id UUID NOT NULL REFERENCES auth.users (id),
+  onboarding_a BOOLEAN NOT NULL DEFAULT true,
+  onboarding_b1 BOOLEAN NOT NULL DEFAULT true,
+  onboarding_b2 BOOLEAN NOT NULL DEFAULT true,
+  onboarding_b3 BOOLEAN NOT NULL DEFAULT true,
+  creation_time TIMESTAMP DEFAULT current_timestamp,
+  PRIMARY KEY (user_id)
+);
+
+
+-- Stripe settings --
+-- Create extension 'wrappers' if it doesn't exist
+CREATE EXTENSION IF NOT EXISTS wrappers;
+
+-- Create foreign data wrapper 'stripe_wrapper' if it doesn't exist
+DO $$ 
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 
+    FROM information_schema.foreign_data_wrappers 
+    WHERE foreign_data_wrapper_name = 'stripe_wrapper'
+  ) THEN
+    CREATE FOREIGN DATA WRAPPER stripe_wrapper
+      HANDLER stripe_fdw_handler;
+  END IF;
+END $$;
+
+-- Check if the server 'stripe_server' exists before creating it
+DO $$ 
+BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_foreign_server WHERE srvname = 'stripe_server') THEN
+    CREATE SERVER stripe_server
+      FOREIGN DATA WRAPPER stripe_wrapper
+      OPTIONS (
+        api_key 'your_stripe_api_key'  -- Replace with your Stripe API key
+      );
+  END IF;
+END $$;
+
+-- Create foreign table 'public.customers' if it doesn't exist
+DO $$ 
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 
+    FROM information_schema.tables 
+    WHERE table_name = 'customers' 
+  ) THEN
+    CREATE FOREIGN TABLE public.customers (
+      id text,
+      email text,
+      name text,
+      description text,
+      created timestamp,
+      attrs jsonb
+    )
+    SERVER stripe_server
+    OPTIONS (
+      OBJECT 'customers',
+      ROWID_COLUMN 'id'
+    );
+  END IF;
+END $$;
+
+-- Create table 'users' if it doesn't exist
+CREATE TABLE IF NOT EXISTS public.users (
+  id uuid REFERENCES auth.users NOT NULL PRIMARY KEY,
+  email text
+);
+
+-- Create or replace function 'public.handle_new_user' 
+CREATE OR REPLACE FUNCTION public.handle_new_user() 
+RETURNS TRIGGER AS $$
+BEGIN
+  INSERT INTO public.users (id, email)
+  VALUES (NEW.id, NEW.email);
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
+-- Check if the trigger 'on_auth_user_created' exists before creating it
+DO $$ 
+BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_trigger WHERE tgname = 'on_auth_user_created') THEN
+    CREATE TRIGGER on_auth_user_created
+      AFTER INSERT ON auth.users
+      FOR EACH ROW EXECUTE FUNCTION public.handle_new_user();
+  END IF;
+END $$;
 
 insert into
   storage.buckets (id, name)
@@ -270,9 +381,9 @@ CREATE POLICY "Access Quivr Storage 1jccrwz_2" ON storage.objects FOR UPDATE TO 
 CREATE POLICY "Access Quivr Storage 1jccrwz_3" ON storage.objects FOR DELETE TO anon USING (bucket_id = 'quivr');
 
 INSERT INTO migrations (name) 
-SELECT '20230921160000_add_last_update_field_to_brain'
+SELECT '20231023160000_copy_auth_users_to_public_users'
 WHERE NOT EXISTS (
-    SELECT 1 FROM migrations WHERE name = '20230921160000_add_last_update_field_to_brain'
+    SELECT 1 FROM migrations WHERE name = '20231023160000_copy_auth_users_to_public_users'
 );
 
 

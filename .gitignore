@@ -10,8 +10,7 @@ log.txt
 backend/venv
 backend/.env
 backend/*.deb
-
-
+backend/.python-version
 
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
@@ -59,7 +58,7 @@ backend/core/application_default_credentials.json
 #local models
 backend/core/local_models/*
 
-
 ## scripts
 .migration_info
 package-lock.json
+backend/celerybeat-schedule

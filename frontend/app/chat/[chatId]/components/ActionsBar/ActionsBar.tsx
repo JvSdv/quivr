@@ -1,30 +1,22 @@
+import { AnimatePresence, motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
+import { useKnowledgeToFeedContext } from "@/lib/context/KnowledgeToFeedProvider/hooks/useKnowledgeToFeedContext";
+
 import { ChatInput, KnowledgeToFeed } from "./components";
 import { useActionBar } from "./hooks/useActionBar";
-import { useKnowledgeUploader } from "./hooks/useKnowledgeUploader";
 
 export const ActionsBar = (): JSX.Element => {
-  const {
-    shouldDisplayUploadCard,
-    setShouldDisplayUploadCard,
-    hasPendingRequests,
-    setHasPendingRequests,
-  } = useActionBar();
-
-  const { addContent, contents, feedBrain, removeContent } =
-    useKnowledgeUploader({
-      setHasPendingRequests,
-      setShouldDisplayUploadCard,
-    });
+  const { hasPendingRequests, setHasPendingRequests } = useActionBar();
 
   const { t } = useTranslation(["chat"]);
+  const { shouldDisplayFeedCard } = useKnowledgeToFeedContext();
 
   return (
     <>
       {hasPendingRequests && (
-        <div className="flex mt-1 flex-col md:flex-row w-full shadow-md dark:shadow-primary/25 hover:shadow-xl transition-shadow rounded-xl bg-white dark:bg-black border border-black/10 dark:border-white/25 p-2 md:p-6 pl-6">
+        <div className="flex mt-1 flex-col md:flex-row w-full shadow-md dark:shadow-primary/25 hover:shadow-xl transition-shadow rounded-xl bg-white dark:bg-black border border-black/10 dark:border-white/25 p-2 md:p-6 pl-6 mb-3">
           <div className="flex flex-1 items-center mb-2 md:mb-0">
             <span className="text-sm md:text-1xl">{t("feedingBrain")}</span>
           </div>
@@ -32,25 +24,26 @@ export const ActionsBar = (): JSX.Element => {
         </div>
       )}
 
-      <div className="">
-        {shouldDisplayUploadCard && (
-          <div className="flex flex-1 overflow-y-auto shadow-md dark:shadow-primary/25 hover:shadow-xl transition-shadow rounded-xl bg-white dark:bg-black border border-black/10 dark:border-white/25 p-4 md:p-6">
-            <KnowledgeToFeed
-              onClose={() => setShouldDisplayUploadCard(false)}
-              contents={contents}
-              addContent={addContent}
-              removeContent={removeContent}
-            />
-          </div>
+      <div>
+        {shouldDisplayFeedCard && (
+          <AnimatePresence>
+            <motion.div
+              key="slide"
+              initial={{ y: "100%", opacity: 0 }}
+              animate={{ y: 0, opacity: 1, transition: { duration: 0.2 } }}
+              exit={{ y: "100%", opacity: 0 }}
+            >
+              <div className="flex flex-1 overflow-y-auto shadow-md dark:shadow-primary/25 hover:shadow-xl transition-shadow rounded-xl bg-white dark:bg-black border border-black/10 dark:border-white/25 p-4 md:p-6 mt-5">
+                <KnowledgeToFeed
+                  dispatchHasPendingRequests={() => setHasPendingRequests(true)}
+                />
+              </div>
+            </motion.div>
+          </AnimatePresence>
         )}
-        <div className="flex mt-1 flex-col w-full shadow-md dark:shadow-primary/25 hover:shadow-xl transition-shadow rounded-xl bg-white dark:bg-black border border-black/10 dark:border-white/25 md:mb-4 lg:mb-[-20px] p-2">
-          <ChatInput
-            shouldDisplayUploadCard={shouldDisplayUploadCard}
-            setShouldDisplayUploadCard={setShouldDisplayUploadCard}
-            feedBrain={() => void feedBrain()}
-            hasContentToFeedBrain={contents.length > 0}
-          />
-        </div>
+        {!shouldDisplayFeedCard && (
+          <ChatInput shouldDisplayFeedCard={shouldDisplayFeedCard} />
+        )}
       </div>
     </>
   );

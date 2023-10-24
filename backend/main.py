@@ -21,12 +21,20 @@ from routes.explore_routes import explore_router
 from routes.knowledge_routes import knowledge_router
 from routes.misc_routes import misc_router
 from routes.notification_routes import notification_router
+from routes.onboarding_routes import onboarding_router
 from routes.prompt_routes import prompt_router
 from routes.subscription_routes import subscription_router
 from routes.upload_routes import upload_router
 from routes.user_routes import user_router
+from routes.contact_routes import router as contact_router
 
 logger = get_logger(__name__)
+
+if (os.getenv("DEV_MODE") == "true"):
+    import debugpy
+    logger.debug("👨‍💻 Running in dev mode")
+    debugpy.listen(("0.0.0.0", 5678))
+
 
 sentry_dsn = os.getenv("SENTRY_DSN")
 if sentry_dsn:
@@ -49,8 +57,10 @@ async def startup_event():
 app.include_router(brain_router)
 app.include_router(chat_router)
 app.include_router(crawl_router)
+app.include_router(onboarding_router)
 app.include_router(explore_router)
 app.include_router(misc_router)
+
 app.include_router(upload_router)
 app.include_router(user_router)
 app.include_router(api_key_router)
@@ -58,6 +68,7 @@ app.include_router(subscription_router)
 app.include_router(prompt_router)
 app.include_router(notification_router)
 app.include_router(knowledge_router)
+app.include_router(contact_router)
 
 
 @app.exception_handler(HTTPException)
